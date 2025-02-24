@@ -108,5 +108,20 @@
     </div>
 </div>
 
+<script>
+    // Function to show alert when "Check" button is clicked
+    function showAlert(event) {
+        event.preventDefault(); // Prevent form submission to keep the page from refreshing
+
+        // Show the success alert
+        document.getElementById('showresult').style.display = 'block';
+
+        // Optionally, you can hide the alert after a few seconds if needed:
+        setTimeout(function() {
+            document.getElementById('showresult').style.display = 'none';
+        }, 5000); // Hide alert after 5 seconds
+    }
+</script>
+
 </body>
 </html>
