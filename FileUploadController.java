@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 @RequestMapping("/upload")
 public class FileUploadController {
 
-    private static final String UPLOAD_DIR = "C:/uploads"; // Directory to store uploaded files
+    private static final String UPLOAD_DIR = "C:/Users/Public/SkillCheckerFolder"; // Directory to store uploaded files
 
     // Create the directory if it doesn't exist
     static {
