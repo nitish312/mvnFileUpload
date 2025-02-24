@@ -20,22 +20,8 @@ public class FileUploadHelper {
         boolean f = false;
 
         try {
-//            InputStream is = multiPartFile.getInputStream();
-//            byte data[] = new byte[is.available()];
-//            is.read();
-//
-//
-//            FileOutputStream fos = new FileOutputStream(UPLOAD_DIR + File.separator + multiPartFile.getOriginalFilename());
-//            fos.write(data);
-//
-//            fos.flush();
-//            fos.close();
-
             Files.copy(multiPartFile.getInputStream(), Paths.get(UPLOAD_DIR+File.separator+multiPartFile.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
-
             f = true;
-
-
         }
         catch(Exception e){
             e.printStackTrace();

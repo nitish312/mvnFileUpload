@@ -1,31 +1,46 @@
 package com.empSkl.mvcProject.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @RestController
+@RequestMapping("/upload")
 public class FileUploadController {
 
-    @Autowired
-    private FileUploadHelper fileUploadHelper;
+    private static final String UPLOAD_DIR = "C:/Users/Public/SkillCheckerFolder"; // Directory to store uploaded files
 
-    @PostMapping("/upload-file")
-    public ResponseEntity<String> uploadFile(@RequestParam("file")MultipartFile file){
+    static {
+        File directory = new File(UPLOAD_DIR);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+    }
 
-        System.out.println(file.getOriginalFilename());
-        System.out.println(file.getSize());
-        System.out.println(file.getContentType());
-        System.out.println(file.getName());
+    @PostMapping("/file")
+    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            return ResponseEntity.badRequest().body("No file uploaded.");
+        }
 
-        boolean f = fileUploadHelper.uploadFile(file);
-        if(f) return ResponseEntity.ok("uploaded file succesfully");
+        try {
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+            Path path = Paths.get(UPLOAD_DIR, fileName);
 
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong");
+            System.out.println("uploaded file name is = " + file.getOriginalFilename());
+
+            Files.copy(file.getInputStream(), path);
+
+            return ResponseEntity.ok("File uploaded successfully: " + fileName);
+        } catch (IOException e) {
+            return ResponseEntity.status(500).body("File upload failed: " + e.getMessage());
+        }
     }
 }

@@ -16,24 +16,17 @@
 
 <div class="container">
     <h2>Skill and Level Checker</h2>
-<%--
-    <form method="POST" enctype="multipart/form-data" action="http://localhost:8080/redirect">
+
+    <div id="uploadbox">
+    <form method="POST" enctype="multipart/form-data" action="http://localhost:8080/home">
     			<table>
     				<tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
     				<tr><td></td><td><input type="submit" value="Upload" /></td></tr>
     			</table>
     		</form>
---%>
-<br>
 
-    <div>
-        Upload Excel File
-            <form action="/uploadFile" method="post" enctype="multipart/form-data">
-                <input type="file" name="file"/>
-                <button type="submit">Upload</button>
-            </form>
     </div>
-
+<br>
     <form id="checkForm" action="/add">
         <label for="skill">Skill:</label>
         <input type="text" id="skill" name="skill" required>
